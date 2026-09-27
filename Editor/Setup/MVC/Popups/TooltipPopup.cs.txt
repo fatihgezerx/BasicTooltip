@@ -1,0 +1,28 @@
+#if HAS_BASIC_TOOLTIP && HAS_UNIMVC
+using UniMVC;
+using UnityEngine;
+
+namespace BasicTooltip.UI
+{
+    /// <summary>
+    /// Opens and closes a <see cref="TooltipView"/> as a UniMVC popup, with the popup's open and close animations
+    /// (a fade or a pop suits a tooltip; a slide doesn't, since the tooltip is moved next to its object as it
+    /// opens). The view fills and places it; this only shows and hides it. Put it on the tooltip box, next to the
+    /// <see cref="TooltipView"/>, leave the box inactive, and list it in the <see cref="UIManager"/>'s Popups: it
+    /// registers the view with <see cref="Tooltips"/> when initialized.
+    /// </summary>
+    [RequireComponent(typeof(TooltipView))]
+    public sealed class TooltipPopup : PopupViewBase, ITooltipVisibility
+    {
+        protected override void OnInitialize()
+        {
+            base.OnInitialize();
+            Tooltips.Register(GetComponent<TooltipView>());
+            if (IsVisible)
+            {
+                gameObject.SetActive(false);
+            }
+        }
+    }
+}
+#endif

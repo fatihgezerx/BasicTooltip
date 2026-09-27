@@ -1,0 +1,37 @@
+#if HAS_BASIC_TOOLTIP && HAS_UNIMVC && HAS_EASYUI
+using EasyUI;
+using UniMVC;
+
+namespace BasicTooltip.UI
+{
+    /// <summary>
+    /// With UniMVC, a built panel's Tooltip Box (see <see cref="TooltipRoles"/>) becomes a <see cref="TooltipPopup"/>:
+    /// it opens and closes with the popup's animations, starts inactive, and is listed in the canvas's
+    /// <see cref="UIManager"/> (added if there is none).
+    /// </summary>
+    internal sealed class TooltipPopupSetup : IEasyUIBuildHandler
+    {
+        // After Basic Tooltip's own setup, which takes the box out to the canvas.
+        public int Order => 10;
+
+        public void OnBuilt(EasyUIBuild build)
+        {
+            var box = build.Find(TooltipRoles.Box);
+            if (box == null || build.Canvas == null)
+            {
+                return;
+            }
+
+            if (!box.TryGetComponent<TooltipPopup>(out _))
+            {
+                box.AddComponent<TooltipPopup>();
+            }
+
+            box.SetActive(false);
+
+            var ui = UISetup.EnsureUIManager(build.Canvas);
+            UISetup.ListViews(ui, box.transform);
+        }
+    }
+}
+#endif
