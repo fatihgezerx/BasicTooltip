@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -136,20 +137,27 @@ namespace BasicTooltip
         }
 
         // Waits in real time (a paused game still shows tooltips), then shows - unless another Show or a Hide
-        // came first. Runs only while a tooltip waits: a few frames, then done.
+        // came first. Runs only while a tooltip waits: a few frames, then done. Ends quietly if the view is destroyed.
         private async Awaitable PresentLater(int request)
         {
-            var at = Time.unscaledTime + showDelay;
-            while (Time.unscaledTime < at)
+            try
             {
-                await Awaitable.NextFrameAsync();
-                if (this == null || request != _request)
+                var at = Time.unscaledTime + showDelay;
+                while (Time.unscaledTime < at)
                 {
-                    return;
+                    await Awaitable.NextFrameAsync(destroyCancellationToken);
+                    if (request != _request)
+                    {
+                        return;
+                    }
                 }
-            }
 
-            Present(request);
+                Present(request);
+            }
+            catch (OperationCanceledException)
+            {
+                // Destroyed while waiting: nothing to show.
+            }
         }
 
         private void Present(int request)
