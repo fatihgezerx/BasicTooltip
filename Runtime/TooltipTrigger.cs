@@ -15,14 +15,15 @@ namespace BasicTooltip
     }
 
     /// <summary>
-    /// Shows a tooltip while the pointer is over this UI object, filled by the <see cref="ITooltipSource"/> on it,
-    /// asked each time the pointer comes in. It needs a raycast target to be hovered - a Graphic on it (an Image, a
-    /// Text...) with Raycast Target ticked. Added by Easy UI's Shows Tooltip role; or call
-    /// <see cref="Tooltips.Show"/> from your own code instead.
+    /// Shows a tooltip while the pointer is over this UI object - or while it is the selected object, which is how
+    /// a gamepad or keyboard player reaches it - filled by the <see cref="ITooltipSource"/> on it, asked each time
+    /// the pointer comes in or the object is selected. To be hovered it needs a raycast target: a Graphic on it (an
+    /// Image, a Text...) with Raycast Target ticked; to be selected it needs to be a Selectable (e.g. a Button).
+    /// Added by Easy UI's Shows Tooltip role; or call <see cref="Tooltips.Show"/> from your own code instead.
     /// </summary>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(RectTransform))]
-    public sealed class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    public sealed class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler
     {
         private ITooltipSource _source;
         private RectTransform _rect;
@@ -35,6 +36,11 @@ namespace BasicTooltip
         public void OnPointerEnter(PointerEventData eventData) => Refresh();
 
         public void OnPointerExit(PointerEventData eventData) => Tooltips.Hide(Rect);
+
+        // Navigated to with a gamepad or the keyboard: the same tooltip as on hover, next to the object.
+        public void OnSelect(BaseEventData eventData) => Refresh();
+
+        public void OnDeselect(BaseEventData eventData) => Tooltips.Hide(Rect);
 
         // Hidden or destroyed under the pointer (e.g. its window closed): no exit comes, so its tooltip goes now.
         private void OnDisable() => Tooltips.Hide(Rect);

@@ -9,8 +9,9 @@ off the screen.
 One `TooltipView` in your canvas is the tooltip box. Any UI object can show it, with content your own system
 gives - Basic Tooltip never needs to know that system:
 
-- a `TooltipTrigger` on the object shows it on hover, filled by the `ITooltipSource` next to it (e.g. an
-  inventory slot giving its item's name, description and icon);
+- a `TooltipTrigger` on the object shows it on hover - and when the object is selected, so a gamepad or keyboard
+  player navigating to it sees it too - filled by the `ITooltipSource` next to it (e.g. an inventory slot giving its
+  item's name, description and icon); the object needs to be a Selectable (e.g. a Button) to be selected;
 - or your own code calls `Tooltips.Show(new TooltipContent(title, body, icon), rectTransform)` and
   `Tooltips.Hide(rectTransform)`.
 
