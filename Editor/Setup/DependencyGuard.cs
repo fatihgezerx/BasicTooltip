@@ -24,9 +24,8 @@ namespace BasicTooltip.Setup
     /// exactly as if it had been copied there by hand, so every file stays visible and editable.
     /// It also keeps <c>HAS_BASIC_TOOLTIP</c> set while Basic Tooltip is in the project, so code that
     /// uses it from outside (the MVC scripts it adds) can be left out of compilation once it's removed.
-    /// When Basic Tooltip is deleted, the guard clears every symbol it manages, since nothing would
-    /// keep them up to date afterwards; the guards of other systems still in the project set the shared
-    /// ones again after the reload.
+    /// When Basic Tooltip is deleted, the guard clears its own symbol and sets the shared ones to what is still installed,
+    /// so other systems' assemblies that need them keep compiling.
     /// </remarks>
     [InitializeOnLoad]
     internal sealed class DependencyGuard : AssetPostprocessor, IActiveBuildTargetChanged
@@ -74,10 +73,14 @@ namespace BasicTooltip.Setup
             if (ContainsFile(deleted, SetupAsmdefFile))
             {
                 SessionState.EraseString(DeclinedKey);
+                // Dependency symbols are shared with other systems' assemblies (their Define Constraints), so they
+                // are set to what is actually installed now - never cleared blindly, or those assemblies would be
+                // left out of compilation while everything they need is still there.
                 var symbols = new Dictionary<string, bool> { [OwnDefine] = false };
+                var assemblies = FindAssemblyDefinitions();
                 foreach (var dependency in Dependencies)
                 {
-                    symbols[dependency.Define] = false;
+                    symbols[dependency.Define] = assemblies.ContainsKey(dependency.Assembly);
                 }
 
                 ApplyDefines(symbols);
