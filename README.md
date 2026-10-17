@@ -117,6 +117,23 @@ free from the screen's edges) and **Show Delay** (seconds, real time).
 Your own opening animation: implement `ITooltipVisibility` (`Show()`, `Hide()`) on a component next to the
 `TooltipView` - it is then used instead of the CanvasGroup.
 
+## In the editor
+
+With the [Veneer](https://github.com/fatihgezerx/Veneer) in the project (the setup script offers it
+and keeps `HAS_VENEER` set), both components get the studio look in a slate accent; without it Unity's
+default Inspectors are used and nothing else changes.
+
+- **Tooltip Box** (`TooltipView`): a header card with a state pill (*Ready* in the editor, *Shown* / *Hidden* in Play
+  Mode, plus what it is shown for). Tab **Placement**: the preferred side as four arrow buttons, Gap, Screen margin
+  and Show delay. Tab **Parts**: the Title, Body and Icon references. Hints appear when the box is not under a
+  Canvas, is inactive with nothing to open it, has no parts, or has no Content Size Fitter.
+- **Tooltip Trigger** (`TooltipTrigger`): no settings of its own, so a header, a short explanation, and hints for what
+  it needs (an `ITooltipSource` on the same object, a raycast target, a Selectable for gamepad navigation). In Play
+  Mode a *Refresh now* button asks the source again.
+
+The editor code lives in `Editor/Studio` (assembly `BasicTooltip.Editor.Studio`, built only while the kit exists);
+the brand pictures are in `Editor/Brand`.
+
 ## Localization
 
 The tooltip's labels are filled by code, so with LocalizationSystem, Sync Project never puts a `LocalizedText`

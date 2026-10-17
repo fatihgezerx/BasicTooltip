@@ -1,0 +1,22 @@
+{
+    "name": "BasicTooltip.Editor.Studio",
+    "rootNamespace": "BasicTooltip",
+    "references": [
+        "BasicTooltip.Runtime",
+        "UnityEngine.UI",
+        "Veneer.Editor"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "HAS_VENEER"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

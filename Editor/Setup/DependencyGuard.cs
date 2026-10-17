@@ -17,7 +17,7 @@ namespace BasicTooltip.Setup
     /// <remarks>
     /// This assembly references nothing, so it always compiles. Basic Tooltip needs nothing else, but it does more
     /// with UniMVC (a popup with its open and close animations), Easy UI (roles) and LocalizationSystem (its
-    /// labels left alone by Sync Project). Whenever scripts reload or an assembly definition appears or disappears, the
+    /// labels left alone by Sync Project), plus the Veneer (the studio-style Inspectors). Whenever scripts reload or an assembly definition appears or disappears, the
     /// guard looks for each one's assembly definition and sets or clears its scripting define symbol (e.g.
     /// <c>HAS_UNIMVC</c>); the code using it is left out of compilation while it is missing - no errors - and
     /// the guard offers to install what's missing by downloading its repository into <c>Assets/Scripts/...</c>,
@@ -42,6 +42,7 @@ namespace BasicTooltip.Setup
             Dependency.Repository("UniMVC", "UniMVC.Runtime", "HAS_UNIMVC", "https://github.com/fatihgezerx/UniMVC", "Assets/Scripts/MVC", "for a tooltip popup with UniMVC's open and close animations"),
             Dependency.Repository("Easy UI", "EasyUI.Editor", "HAS_EASYUI", "https://github.com/fatihgezerx/EasyUI", "Assets/Scripts/EasyUI", "for the Tooltip roles in Easy UI"),
             Dependency.Repository("Localization System", "LocalizationSystem.Runtime", "HAS_LOCALIZATION_SYSTEM", "https://github.com/fatihgezerx/LocalizationSystem", "Assets/Scripts/LocalizationSystem", "so Sync Project leaves the tooltip's own labels alone"),
+            Dependency.Repository("Veneer", "Veneer.Editor", "HAS_VENEER", "https://github.com/fatihgezerx/Veneer", "Assets/Scripts/Veneer", "for the studio-style Inspectors (without it Unity's default Inspectors are used)"),
         };
 
         private static AddAndRemoveRequest _packageRequest;
