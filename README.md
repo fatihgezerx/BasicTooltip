@@ -131,6 +131,10 @@ default Inspectors are used and nothing else changes.
   it needs (an `ITooltipSource` on the same object, a raycast target, a Selectable for gamepad navigation). In Play
   Mode a *Refresh now* button asks the source again.
 
+Both Inspectors are drawn from a default layout that Basic Tooltip ships, so they can be customised in
+`Tools > Veneer > Inspector Designer` (Customize makes your own copy, Reset goes back to the default). The system's own
+pieces (state pills, the Play Mode strip, the hints, the Refresh button) can be moved or hidden there, but not changed.
+
 The editor code lives in `Editor/Studio` (assembly `BasicTooltip.Editor.Studio`, built only while the kit exists);
 the brand pictures are in `Editor/Brand`.
 
